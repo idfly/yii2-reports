@@ -1,5 +1,5 @@
 {
-    "name": "idfly/yii2-porto",
+    "name": "idfly/yii2-reports",
     "description": "Porto Admin Theme",
     "type": "library",
     "keywords": [
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "idfly\\porto\\": ""
+            "idfly\\reports\\": ""
         }
     }
 }
