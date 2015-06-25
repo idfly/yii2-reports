@@ -1,0 +1,25 @@
+{
+    "name": "idfly/yii2-porto",
+    "description": "Porto Admin Theme",
+    "type": "library",
+    "keywords": [
+        "yii2",
+        "extension"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Artem Filatov",
+            "email": "ru.crtv@gmail.com",
+            "homepage": "http://crtv.pro"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "idfly\\porto\\": ""
+        }
+    }
+}
