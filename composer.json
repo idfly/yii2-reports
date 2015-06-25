@@ -1,6 +1,6 @@
 {
     "name": "idfly/yii2-reports",
-    "description": "Porto Admin Theme",
+    "description": "Admin Reports Module",
     "type": "library",
     "keywords": [
         "yii2",
@@ -9,9 +9,9 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Artem Filatov",
-            "email": "ru.crtv@gmail.com",
-            "homepage": "http://crtv.pro"
+            "name": "Roman Openyshev",
+            "homepage": "idfly.ru",
+            "email": "r.openyshev@idfly.ru"
         }
     ],
     "require": {

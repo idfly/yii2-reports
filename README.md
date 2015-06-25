@@ -37,6 +37,11 @@ php composer.phar require --prefer-dist idfly/yii2-reports "dev-master"
         'admin/reports/<action>' => 'reports/reports/<action>',
 ```
 
+Подключить модуль в файле common.php:
+```
+$config['modules']['reports'] = ['class' => 'idfly\reports\Module'];
+```
+
 Миграции выполняются с указанием директории модуля:
 ```
 ﻿./yii migrate --migrationPath=@vendor/idfly/yii2-reports/migrations
