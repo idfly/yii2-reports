@@ -3,11 +3,11 @@
 namespace idfly\reports\controllers;
 
 use app\admin\controllers\BaseController;
-use app\models\Report;
+use idfly\reports\models\Report;
 use yii\base\Exception;
 
 class ReportsController extends BaseController {
-    protected $modelClass = '\app\models\Report';
+    protected $modelClass = '\idfly\reports\models\Report';
 
     public function actionGetReport()
     {
