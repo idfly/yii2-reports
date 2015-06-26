@@ -8,6 +8,6 @@ class Module extends \yii\base\Module {
 
     public function init() {
         parent::init();
-        \yii::$app->errorHandler->errorAction = 'error';
+        \yii::$app->errorHandler->errorAction = 'reports/reports/error';
     }
 }

@@ -8,6 +8,7 @@ use yii\base\Exception;
 
 class ReportsController extends BaseController {
     protected $modelClass = '\idfly\reports\models\Report';
+    public $layout = 'admin.php';
 
     public function actionGetReport()
     {
@@ -18,7 +19,7 @@ class ReportsController extends BaseController {
 
 
         if(empty($report)) {
-           throw new \yii\web\HttpException(404);
+            throw new \yii\web\HttpException(404);
         }
 
         $args = \Yii::$app->request->get('args');
@@ -28,11 +29,11 @@ class ReportsController extends BaseController {
                 \yii::$app->db->createCommand($report->sql, $args)->
                 queryAll();
         } catch(Exception $e) {
-            throw new \yii\web\HttpException('Failed db query');
+            throw new \yii\web\HttpException('400', 'Failed db query');
         }
 
         if(empty($result)) {
-            throw new \yii\web\HttpException('Empty result\'s db query');
+            throw new \yii\web\HttpException('400', 'Empty result\'s db query');
         }
 
         switch($report->format) {
@@ -48,7 +49,8 @@ class ReportsController extends BaseController {
             case 'json': self::exportJSON($report->name, $result);
                 break;
             default:
-                throw new \yii\web\HttpException('Report have unknown format');
+                throw new \yii\web\HttpException('400', 'Report have unknown
+                format');
         }
     }
 
@@ -112,4 +114,11 @@ class ReportsController extends BaseController {
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         exit;
     }
+
+    public function actionError()
+    {
+        $exception = \Yii::$app->errorHandler->exception;
+        return $this->render('error', ['exception' => $exception]);
+    }
+
 }
