@@ -29,7 +29,7 @@ class ReportsController extends BaseController {
                 \yii::$app->db->createCommand($report->sql, $args)->
                 queryAll();
         } catch(Exception $e) {
-            throw new \yii\web\HttpException('400', 'Failed db query');
+            throw new \yii\web\HttpException('400', $e->getMessage());
         }
 
         if(empty($result)) {
