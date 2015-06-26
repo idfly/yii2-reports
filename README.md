@@ -9,6 +9,8 @@
 Предпочтительный способ установки через [composer](http://getcomposer.org/download/).
 
 В файл проекта `composer.json`, необходимо добавить следующий код:
+
+
 ```
 "repositories":[
         {
@@ -18,33 +20,48 @@
 ]
 ```
 
+
 Затем запустить команду:
+
+
 ```
 php composer.phar require --prefer-dist idfly/yii2-reports "dev-master"
 ```
 
+
 или добавить в разделе `require`, в файле вашего проекта `composer.json`, следующий код:
+
+
 ```
 "idfly/yii2-reports": "dev-master"
 ```
 
+
 Настроить роутинг в файле web.php: 
+
+
 ```
         'api/reports/<secret:\w+>' => 'reports/export',
         'admin/reports' => 'reports/reports',
         'admin/reports/<action>' => 'reports/reports/<action>',
 ```
 
+
 Подключить модуль в файле common.php:
+
+
 ```
 $config['modules']['reports'] = ['class' => 'idfly\reports\Module'];
 ```
 
+
 Миграции выполняются с указанием директории модуля:
+
 
 ```
 ﻿./yii migrate --migrationPath=@vendor/idfly/yii2-reports/migrations
 ```
+
 
 Описание
 ---------
@@ -57,12 +74,15 @@ $_GET-параметров.
 
 Например, для того, чтобы подставить параметры в запрос:
 
+
 ```
 SELECT * FROM `ware` LIMIT :limit WHERE `category_id` = :category_id
 ```
 
+
 Необходимо передать в `$_GET['args']` параметры `:limit` и `:category_id` 
 следующим способом: 
+
 
 ```
 http://localhost/api/reports/$reportSecret/?args[:limit]=100&args[:category_id]=5
@@ -79,10 +99,16 @@ http://localhost/api/reports/$reportSecret/?args[:limit]=100&args[:category_id]=
  
 
 Пример запроса: 
+
+
 ```
 SELECT * FROM `ware`
 ```
+
+
 Результат файл .csv:
+
+
 ```
 id;category_id;name;description;type
 4;2;'Песок карьерный';;Материал
@@ -95,10 +121,16 @@ id;category_id;name;description;type
 2) Экспорт в .json:
 
 Пример запроса: 
+
+
 ```
 SELECT * FROM `ware`
 ```
+
+
 Результат файл .json:
+
+
 ```
 [
     {"id":"4","category_id":"2","name":"Песок карьерный","description":"","type":"Материал"},
@@ -111,10 +143,16 @@ SELECT * FROM `ware`
 3) Экспорт в .xml:
 
 Пример запроса: 
+
+
 ```
 SELECT * FROM `ware`
 ```
+
+
 Результат файл .xml:
+
+
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <string>
