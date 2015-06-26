@@ -13,7 +13,7 @@
 В файл проекта `composer.json`, необходимо добавить следующий код:
 
 ```
-"repositories":[
+"repositories": [
         {
             "type": "git",
             "url": "git@bitbucket.org:idfly/yii2-reports.git"
