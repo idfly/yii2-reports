@@ -3,23 +3,74 @@
 Модуль для экспорта данных из Mysql в форматах csv/json/xml.
 Примечание: модуль работает совместно с admin-панелью idfly.
 
+
+Установка
+---------
+Предпочтительный способ установки через [composer](http://getcomposer.org/download/).
+
+В файл проекта `composer.json`, необходимо добавить следующий код:
+```
+"repositories":[
+        {
+            "type": "git",
+            "url": "git@bitbucket.org:idfly/yii2-reports.git"
+        }
+]
+```
+
+Затем запустить команду:
+```
+php composer.phar require --prefer-dist idfly/yii2-reports "dev-master"
+```
+
+или добавить в разделе `require`, в файле вашего проекта `composer.json`, следующий код:
+```
+"idfly/yii2-reports": "dev-master"
+```
+
+Настроить роутинг в файле web.php: 
+```
+        'api/reports/<secret:\w+>' => 'reports/export',
+        'admin/reports' => 'reports/reports',
+        'admin/reports/<action>' => 'reports/reports/<action>',
+```
+
+Подключить модуль в файле common.php:
+```
+$config['modules']['reports'] = ['class' => 'idfly\reports\Module'];
+```
+
+Миграции выполняются с указанием директории модуля:
+
+```
+﻿./yii migrate --migrationPath=@vendor/idfly/yii2-reports/migrations
+```
+
 Описание
 ---------
 Модуль иммет возможность выгружать данные в форматах: csv, json, xml.
 Для создания отчета необходимо указать sql-запрос и формат, в котором 
 необходимо выполнить экспорт данных в файл.
 
-Особенностью модуля является возможность подставление в запрос 
-$_GET-параметров, например:
+Особенностью модуля является возможность подставления в sql-запрос 
+$_GET-параметров.
 
-Доступ к экпорту отчета доступен по подобной ссылке: 
-```http://localhost/api/reports/$reportSecret/?args[:limit]=3```
-где $reportSecret - секретный код отчета, а параметры для подстановки в 
-sql-запрос, должны передаваться в $_GET['args']
+Например, для того, чтобы подставить параметры в запрос:
 
 ```
-SELECT * FROM `ware` LIMIT :limit
+SELECT * FROM `ware` LIMIT :limit WHERE `category_id` = :category_id
 ```
+
+Необходимо передать в `$_GET['args']` параметры `:limit` и `:category_id` 
+следующим способом: 
+
+```
+http://localhost/api/reports/$reportSecret/?args[:limit]=100&args[:category_id]=5
+```
+
+где `$reportSecret` - секретный код отчета, указанный в БД.
+
+
 
 1) Экспорт в .csv:
  
@@ -40,6 +91,7 @@ id;category_id;name;description;type
 7;6;'Аренда эксаватора-погрузчика (типа JCB)';;Услуга
 ```
 
+
 2) Экспорт в .json:
 
 Пример запроса: 
@@ -54,6 +106,7 @@ SELECT * FROM `ware`
     {"id":"6","category_id":"2","name":"Песок сеяный","description":"","type":"Материал"}
 ]
 ```
+
 
 3) Экспорт в .xml:
 
@@ -85,66 +138,4 @@ SELECT * FROM `ware`
 	<description></description>
 	<type>Материал</type>
 </string>
-```
-
-Миграция таблицы отчетов: 
-```
-CREATE TABLE `report` (
-            `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-            `name` VARCHAR(128) NOT NULL COMMENT \'название\',
-            `secret` VARCHAR(256) NOT NULL COMMENT \'секретный ключ\',
-            `active` TINYINT(1) UNSIGNED NOT NULL COMMENT \'активность\',
-            `sql` TEXT NOT NULL COMMENT \'sql - запрос\',
-            `format` ENUM(\'csv\', \'json\', \'xml\') DEFAULT NULL
-              COMMENT \'формат выгрузки отчета\',
-            `csv_delimiter` ENUM(\',\', \';\', \'\t\') DEFAULT NULL
-              COMMENT \'разделитель для csv формата\',
-            `csv_enclosure` ENUM("\'", \'"\', \'NULL\') DEFAULT NULL
-               COMMENT \'обёртка для полей csv\',
-            PRIMARY KEY(`id`)
-        ) COMMENT \'отчёты\'
-```
-
-Установка
----------
-Предпочтительный способ установки через [composer](http://getcomposer.org/download/).
-
-В файл проекта `composer.json`, необходимо добавить следующий код:
-
-```
-"repositories":[
-        {
-            "type": "git",
-            "url": "git@bitbucket.org:idfly/yii2-reports.git"
-        }
-]
-```
-
-Затем запустить команду:
-
-```
-php composer.phar require --prefer-dist idfly/yii2-reports "dev-master"
-```
-
-или добавить в разделе `require`, в файле вашего проекта `composer.json`, следующий код:
-
-```
-"idfly/yii2-reports": "dev-master"
-```
-
-Настроить роутинг в файле web.php: 
-```
-        'api/reports/<secret:\w+>' => 'reports/reports/get-report',
-        'admin/reports' => 'reports/reports',
-        'admin/reports/<action>' => 'reports/reports/<action>',
-```
-
-Подключить модуль в файле common.php:
-```
-$config['modules']['reports'] = ['class' => 'idfly\reports\Module'];
-```
-
-Миграции выполняются с указанием директории модуля:
-```
-﻿./yii migrate --migrationPath=@vendor/idfly/yii2-reports/migrations
 ```

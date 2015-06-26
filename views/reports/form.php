@@ -75,3 +75,4 @@ input('text', ['class' => 'form-control col-sm-6']) ?>
 
 <?= $form->field($report, 'active')->checkbox() ?>
 
+
