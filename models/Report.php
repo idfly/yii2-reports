@@ -104,7 +104,7 @@ class Report extends \yii\db\ActiveRecord
 
         header('Content-type: text/xml');
 
-        return htmlentities($xml, ENT_COMPAT, 'UTF-8');
+        return $xml;
     }
 
     public function generateJSON($data)
