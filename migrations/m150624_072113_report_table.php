@@ -15,7 +15,7 @@ class m150624_072113_report_table extends Migration
             `sql` TEXT NOT NULL COMMENT \'sql - запрос\',
             `format` ENUM(\'csv\', \'json\', \'xml\') DEFAULT NULL
               COMMENT \'формат выгрузки отчета\',
-            `csv_delimiter` ENUM(\',\', \';\', \'\t\') DEFAULT NULL
+            `csv_delimiter` ENUM(\',\', \';\', \'tab\') DEFAULT NULL
               COMMENT \'разделитель для csv формата\',
             `csv_enclosure` ENUM("\'", \'"\', \'NULL\') DEFAULT NULL
                COMMENT \'обёртка для полей csv\',

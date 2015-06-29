@@ -18,7 +18,7 @@ class Report extends \yii\db\ActiveRecord
     ];
 
     public $csvDelimiters = [
-        ',', ';', '\\t'
+        ',', ';', 'tab'
     ];
     public $csvEnclosures = [
         '"', '\'', 'NULL'
@@ -60,7 +60,7 @@ class Report extends \yii\db\ActiveRecord
 
     public function generateCSV($data, $delimiter, $enclosure)
     {
-        if($delimiter === '\t') {
+        if($delimiter === 'tab') {
             $delimiter = chr(9);
         } elseif(empty($delimiter)) {
             $delimiter = ',';

@@ -9,7 +9,7 @@ class m150629_102432_report_encode extends Migration
     {
 	$query = 'ALTER TABLE `report`
           ADD COLUMN `encoding` VARCHAR(64) NOT NULL,
-          MODIFY `csv_delimiter` ENUM(",", ";", "\\t") DEFAULT NULL
+          MODIFY `csv_delimiter` ENUM(",", ";", "tab") DEFAULT NULL
               COMMENT "разделитель для csv формата"';
         \yii::$app->db->createCommand($query)->execute();
     }
