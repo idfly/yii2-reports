@@ -56,7 +56,7 @@ class Report extends \yii\db\ActiveRecord
         ];
     }
 
-    public function generateCSV($filename, $data, $delimiter, $enclosure)
+    public function generateCSV($data, $delimiter, $enclosure)
     {
         if($delimiter === '\t') {
             $delimiter = chr(9);
@@ -69,8 +69,6 @@ class Report extends \yii\db\ActiveRecord
         }
 
         header('Content-type: text/plain');
-        header('Content-Disposition: attachment; filename="' .
-            $filename . '.csv"');
 
         $out = fopen('php://memory','r+');
 
@@ -85,7 +83,7 @@ class Report extends \yii\db\ActiveRecord
         return stream_get_contents($out);
     }
 
-    public function generateXML($filename, $data)
+    public function generateXML($data)
     {
         $tab = "\t";
         $br = "\n";
@@ -103,18 +101,15 @@ class Report extends \yii\db\ActiveRecord
         }
 
         $xml .= '</elements>' . $br;
-        header('Content-type: text/xml');
-        header('Content-Disposition: attachment; filename="' .
-            $filename . '.xml"');
 
-        return $xml;
+        header('Content-type: text/xml');
+
+        return htmlentities($xml, ENT_COMPAT, 'UTF-8');
     }
 
-    public function generateJSON($filename, $data)
+    public function generateJSON($data)
     {
         header('Content-type: text/plain');
-        header('Content-Disposition: attachment; filename="' .
-            $filename . '.json"');
 
         return json_encode($data, JSON_UNESCAPED_UNICODE);
     }
@@ -141,16 +136,15 @@ class Report extends \yii\db\ActiveRecord
         switch($this->format) {
             case 'csv' :
                 $file = $this->generateCSV(
-                    $this->name,
                     $result,
                     $this->csv_delimiter,
                     $this->csv_enclosure
                 ); break;
             case 'xml' :
-                $file = $this->generateXML($this->name, $result);
+                $file = $this->generateXML($result);
                 break;
             case 'json':
-                $file = $this->generateJSON($this->name, $result);
+                $file = $this->generateJSON($result);
                 break;
             default:
                 throw new \yii\web\HttpException(400,
