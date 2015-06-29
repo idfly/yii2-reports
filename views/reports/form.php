@@ -71,7 +71,9 @@ input('text', ['class' => 'form-control col-sm-6']) ?>
     </div>
 </div>
 
-
+<?= $form->
+field($report, 'encoding')->
+input('text', ['class' => 'form-control col-sm-6']) ?>
 
 <?= $form->field($report, 'active')->checkbox() ?>
 

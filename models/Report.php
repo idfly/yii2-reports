@@ -36,6 +36,7 @@ class Report extends \yii\db\ActiveRecord
                     'format',
                     'csv_delimiter',
                     'csv_enclosure',
+                    'encoding'
                 ],
                 'safe'
             ]
@@ -53,6 +54,7 @@ class Report extends \yii\db\ActiveRecord
             'format' => 'Формат выгрузки отчета',
             'csv_delimiter' => 'Разделитель для csv формата',
             'csv_enclosure' => 'Обёртка для полей csv',
+            'encoding' => 'Кодировка',
         ];
     }
 

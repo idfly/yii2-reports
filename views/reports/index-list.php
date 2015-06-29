@@ -15,6 +15,7 @@ use app\components\NumberHelper;
         <th>Формат выгрузки отчета</th>
         <th>Разделитель для csv формата</th>
         <th>Обёртка для полей csv</th>
+        <th>Кодировка</th>
         <th></th>
     </tr>
     </thead>
@@ -48,6 +49,9 @@ use app\components\NumberHelper;
             </td>
             <td>
                 <?= Html::encode($report->csv_enclosure) ?>
+            </td>
+            <td>
+                <?= Html::encode($report->encoding) ?>
             </td>
             <td>
                 <a class="btn btn-xs btn-primary inline fa fa-pencil" href="<?=

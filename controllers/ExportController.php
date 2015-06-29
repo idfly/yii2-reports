@@ -19,6 +19,11 @@ class ExportController extends \yii\web\Controller
         }
 
         $file = $report->getReportFile();
+
+        if(!empty($report->encoding)) {
+            iconv("UTF-8", $report->encoding, $file);
+        }
+
         return $file;
     }
 }
