@@ -18,12 +18,9 @@ class ExportController extends \yii\web\Controller
             throw new \yii\web\HttpException(404);
         }
 
-        $file = $report->getReportFile();
+        header($report->getHeader());
+        $report = $report->getReport();
 
-        if(!empty($report->encoding)) {
-            iconv("UTF-8", $report->encoding, $file);
-        }
-
-        return $file;
+        return $report;
     }
 }

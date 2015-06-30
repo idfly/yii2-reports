@@ -17,6 +17,12 @@ class Report extends \yii\db\ActiveRecord
       'csv', 'json', 'xml'
     ];
 
+    public $headers = [
+        'csv' => 'Content-type: text/csv',
+        'json' => 'Content-type: application/json',
+        'xml' => 'Content-type: text/xml',
+    ];
+
     public $csvDelimiters = [
         ',', ';', 'tab'
     ];
@@ -70,8 +76,6 @@ class Report extends \yii\db\ActiveRecord
             $enclosure = "'";
         }
 
-        header('Content-type: text/plain');
-
         $out = fopen('php://memory','r+');
 
         fputcsv($out, array_keys($data[0]), $delimiter, $enclosure);
@@ -104,19 +108,15 @@ class Report extends \yii\db\ActiveRecord
 
         $xml .= '</elements>' . $br;
 
-        header('Content-type: text/xml');
-
         return $xml;
     }
 
     public function generateJSON($data)
     {
-        header('Content-type: text/plain');
-
         return json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 
-    public function getReportFile()
+    public function getReport()
     {
         $args = \Yii::$app->request->get('args');
 
@@ -131,28 +131,32 @@ class Report extends \yii\db\ActiveRecord
             );
         }
 
-        if(empty($result)) {
-            throw new \yii\web\HttpException(400, 'Empty result\'s db query');
-        }
-
         switch($this->format) {
             case 'csv' :
-                $file = $this->generateCSV(
-                    $result,
-                    $this->csv_delimiter,
-                    $this->csv_enclosure
-                ); break;
+                $report = $this->generateCSV($result, $this->csv_delimiter,
+                    $this->csv_enclosure);
+                break;
             case 'xml' :
-                $file = $this->generateXML($result);
+                $report = $this->generateXML($result);
                 break;
             case 'json':
-                $file = $this->generateJSON($result);
+                $report = $this->generateJSON($result);
                 break;
             default:
                 throw new \yii\web\HttpException(400,
                     'Report have unknown format');
         }
 
-        return $file;
+        if(!empty($this->encoding)) {
+            $report = iconv("UTF-8", $this->encoding, $report);
+        }
+
+        return $report;
     }
+
+    public function getHeader()
+    {
+        return $headers[$this->format];
+    }
+
 }
