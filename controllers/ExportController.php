@@ -11,13 +11,17 @@ class ExportController extends \yii\web\Controller
     {
         $secret = \Yii::$app->request->get('secret');
 
-        $report = Report::find()->
-            where(['secret' => $secret])->one();
+        $report =
+            Report::find()->
+            where(['secret' => $secret])->
+            where(['active' => 1])->
+            one();
 
         if(empty($report)) {
             throw new \yii\web\HttpException(404);
         }
 
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         header($report->getHeader());
 
         return $report->getReport();

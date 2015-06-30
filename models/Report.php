@@ -18,7 +18,7 @@ class Report extends \yii\db\ActiveRecord
     ];
 
     public $headers = [
-        'csv' => 'Content-type: text/csv',
+        'csv' => 'Content-type: text/plain',
         'json' => 'Content-type: application/json',
         'xml' => 'Content-type: text/xml',
     ];
@@ -156,7 +156,12 @@ class Report extends \yii\db\ActiveRecord
 
     public function getHeader()
     {
-        return $headers[$this->format];
+        $encoding = $this->encoding;
+        if(empty($encoding)) {
+            $encoding = 'UTF-8';
+        }
+
+        return $this->headers[$this->format] . '; charset=' . $encoding;
     }
 
 }
