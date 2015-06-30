@@ -19,8 +19,7 @@ class ExportController extends \yii\web\Controller
         }
 
         header($report->getHeader());
-        $report = $report->getReport();
 
-        return $report;
+        return $report->getReport();
     }
 }
