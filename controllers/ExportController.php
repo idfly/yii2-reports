@@ -13,8 +13,7 @@ class ExportController extends \yii\web\Controller
 
         $report =
             Report::find()->
-            where(['secret' => $secret])->
-            where(['active' => 1])->
+            where(['secret' => $secret, 'active' => 1])->
             one();
 
         if(empty($report)) {
