@@ -10,6 +10,12 @@ class ReportsController extends BaseController
     protected $modelClass = '\idfly\reports\models\Report';
     public $layout = '@app/admin/views/layouts/admin.php';
 
+    protected $titles = [
+        'index' => 'Отчеты',
+        'update' => 'Редактировать отчет',
+        'create' => 'Добавить отчет',
+    ];
+
     public function actionError()
     {
         $this->layout = 'module.php';
