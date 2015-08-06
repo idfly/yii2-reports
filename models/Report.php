@@ -148,7 +148,8 @@ class Report extends \yii\db\ActiveRecord
         }
 
         if(!empty($this->encoding)) {
-            $report = iconv("UTF-8", $this->encoding, $report);
+            $report = iconv("UTF-8", $this->encoding . '//TRANSLIT//IGNORE',
+                $report);
         }
 
         return $report;
