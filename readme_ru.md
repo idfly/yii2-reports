@@ -1,39 +1,25 @@
-Модуль yii2 от idfly для экспорта данных из Mysql
+yii2-reports
 =====================
 
 Модуль для экспорта данных из Mysql в форматах csv/json/xml.
 Примечание: модуль работает совместно с admin-панелью idfly.
 
+## Установка
 
-Установка
----------
+1. В проектный `composer.json` добавить в секцию `require`:
 
-Предпочтительный способ установки через [composer](http://getcomposer.org/download/).
+        "idfly/yii2-reports": "dev-master",
 
-В файл проекта `composer.json`, необходимо добавить следующий код:
+2. В секцию `repositories`:
 
-```
-"repositories": [
         {
             "type": "git",
             "url": "git@bitbucket.org:idfly/yii2-reports.git"
         }
-]
-```
 
-Затем запустить команду:
+3. Выполнить `composer update`
 
-```
-php composer.phar require --prefer-dist idfly/yii2-reports "dev-master"
-```
-
-или добавить в разделе `require`, в файле вашего проекта `composer.json`, следующий код:
-
-```
-"idfly/yii2-reports": "dev-master"
-```
-
-Настроить роутинг в файле web.php:
+4. Настроить роутинг в проектном конфиге:
 
 ```
 'api/reports/<secret:\w+>' => 'reports/export',
@@ -41,13 +27,13 @@ php composer.phar require --prefer-dist idfly/yii2-reports "dev-master"
 'admin/reports/<action>' => 'reports/reports/<action>',
 ```
 
-Подключить модуль в файле common.php:
+5. Подключить модуль в проектном конфиге:
 
 ```
 $config['modules']['reports'] = ['class' => 'idfly\reports\Module'];
 ```
 
-Миграции выполняются с указанием директории модуля:
+6. Миграции выполняются с указанием директории модуля:
 
 ```
 ﻿./yii migrate --migrationPath=@vendor/idfly/yii2-reports/migrations
@@ -57,7 +43,7 @@ $config['modules']['reports'] = ['class' => 'idfly\reports\Module'];
 Описание
 ---------
 
-Модуль иммет возможность выгружать данные в форматах: csv, json, xml.
+Модуль имеет возможность выгружать данные в форматах: csv, json, xml.
 Для создания отчета необходимо указать sql-запрос и формат, в котором
 необходимо выполнить экспорт данных в файл.
 
